@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>U* — Amplior, Vastior, Ultra Somnia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,700;0,900;1,900&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #000000;      /* Fond Noir */
+            --paper: #ffffff;    /* Blanc pur */
+            --cobalt: #0047ab;   /* Bleu Cobalt */
+            --yellow: #FFB700;   /* Jaune Ambre - Plus saturé et moins pastel */
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; font-size: 16px; }
+
+        body {
+            background: var(--ink);
+            color: var(--paper);
+            font-family: 'DM Mono', monospace;
+            overflow-x: hidden;
+        }
+
+        /* ── CURSEUR ── */
+        #cursor {
+            position: fixed;
+            width: 12px; height: 12px;
+            background: var(--yellow);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.05s, width 0.2s, height 0.2s, background 0.2s;
+            mix-blend-mode: difference;
+            display: none;
+        }
+        #cursor.big { width: 60px; height: 60px; }
+
+        /* ── EFFET DE GRAIN ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.2;
+        }
+
+        /* ── NAVIGATION ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 40px;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 12px; }
+        .nav-wordmark { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 1.6rem; letter-spacing: 0.05em; color: var(--paper); }
+        .nav-wordmark sup { color: var(--yellow); font-size: 0.9em; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: #888; text-decoration: none; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--yellow); }
+
+        /* ── HERO ── */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0 0 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .hero-center {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -60%);
+            text-align: center;
+        }
+
+        .hero-logo-big {
+            width: min(28vw, 180px);
+            height: auto;
+            filter: drop-shadow(0 0 50px rgba(0,71,171,0.3));
+        }
+
+        .hero-bottom {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: end;
+            gap: 40px;
+            padding: 0 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-def { font-size: 0.7rem; color: #666; line-height: 2; font-style: italic; }
+        .hero-def strong { color: var(--yellow); font-style: normal; }
+
+        .hero-main-title { text-align: center; }
+        .hero-main-title .line1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            font-size: clamp(4rem, 14vw, 16rem);
+            line-height: 0.85;
+            color: var(--paper);
+            display: block;
+        }
+        .hero-main-title .line2 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: clamp(1rem, 3vw, 2.5rem);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--yellow);
+            display: block;
+            margin-top: 10px;
+        }
+
+        .hero-formula { text-align: right; }
+        .formula-box {
+            display: inline-block;
+            border: 1px solid #333;
+            padding: 16px 24px;
+            font-size: 0.8rem;
+            line-height: 2;
+        }
+        .formula-box .f-var { color: var(--cobalt); }
+        .formula-box .f-op { color: #555; margin: 0 6px; }
+        .formula-box .f-res { color: var(--yellow); }
+
+        /* ── TICKER ── */
+        .ticker-outer {
+            overflow: hidden;
+            border-top: 1px solid var(--yellow);
+            border-bottom: 1px solid var(--yellow);
+            background: var(--yellow);
+            padding: 12px 0;
+        }
+
+        .ticker-inner {
+            display: flex;
+            white-space: nowrap;
+            animation: tick 28s linear infinite;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink);
+        }
+
+        .t-sep { margin: 0 30px; color: var(--cobalt); }
+
+        @keyframes tick {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* ── SECTIONS ── */
+        .section { padding: 120px 0; position: relative; overflow: hidden; }
+        .wrap { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+
+        .s-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .s-eyebrow::after { content: ''; flex: 1; height: 1px; background: #222; }
+
+        .s-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: clamp(3rem, 7vw, 9rem);
+            line-height: 0.9;
+            text-transform: uppercase;
+        }
+
+        /* ── I. SUBSTANCE (COBALT) ── */
+        #substance { background: var(--cobalt); color: var(--paper); }
+        #substance .s-eyebrow { color: rgba(255,255,255,0.4); }
+        #substance .s-eyebrow::after { background: rgba(255,255,255,0.2); }
+        .mkt-grid { display: grid; grid-template-columns: 5fr 4fr; gap: 60px; align-items: start; margin-top: 60px; }
+        .mkt-big { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-style: italic; font-size: clamp(3rem, 8vw, 10rem); line-height: 0.85; text-transform: uppercase; }
+        .mkt-big .crossed { position: relative; color: rgba(255,255,255,0.2); }
+        .mkt-big .crossed::after { content: ''; position: absolute; left: -2px; right: -2px; top: 48%; height: 4px; background: var(--yellow); transform: rotate(-2deg); }
+        .mkt-big .instead { color: var(--paper); display: block; }
+        .mkt-body p { font-size: 0.95rem; line-height: 1.8; color: rgba(255,255,255,0.8); margin-bottom: 20px; }
+        .mkt-credo { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
+        .mkt-credo-item { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.4rem; text-transform: uppercase; display: flex; align-items: center; gap: 12px; color: var(--yellow); }
+
+        /* ── II. SCIENCE (BLACK) ── */
+        #science { background: var(--ink); }
+        .sci-header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 80px; }
+        .sci-quote { font-size: 1rem; line-height: 1.9; color: #888; font-style: italic; }
+        .scientists-table { border-top: 1px solid #222; }
+        .sci-row { display: grid; grid-template-columns: 60px 1fr 1fr 80px; align-items: center; border-bottom: 1px solid #222; padding: 22px 0; transition: all 0.3s; }
+        .sci-row:hover { background: #080808; padding-left: 20px; border-bottom-color: var(--cobalt); }
+        .sci-letter { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 3rem; color: #333; }
+        .sci-row:hover .sci-letter { color: var(--yellow); }
+        .sci-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.4rem; text-transform: uppercase; }
+        .sci-domain { font-size: 0.7rem; color: #666; font-style: italic; }
+        .sci-year { font-size: 0.65rem; color: #444; text-align: right; }
+        .sci-footer-bar { margin-top: 60px; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #222; }
+        .sci-pillar { padding: 40px 30px; border-right: 1px solid #222; }
+        .sci-pillar-sym { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 3.5rem; color: var(--cobalt); margin-bottom: 10px; }
+
+        /* ── III. CERVEAU (BLACK + GLOW) ── */
+        #brain { background: var(--ink); position: relative; overflow: hidden; border-top: 1px solid #222; }
+        .brain-orb { position: absolute; right: -150px; top: -150px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(0,71,171,0.2) 0%, transparent 70%); }
+        .brain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .brain-stat { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 5rem; color: var(--yellow); line-height: 1; }
+        .brain-stat small { display: block; font-size: 0.7rem; color: #555; text-transform: uppercase; letter-spacing: 0.2em; margin-top: 10px; }
+
+        /* ── IV. CRÉATION (WHITE) ── */
+        #creation { background: var(--paper); color: var(--ink); }
+        #creation .s-eyebrow::after { background: #eee; }
+        .creation-mosaic { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: #eee; margin-top: 60px; }
+        .c-cell { background: var(--paper); padding: 50px 30px; position: relative; border-top: 4px solid var(--ink); transition: transform 0.3s; }
+        .c-cell:nth-child(odd) { border-top-color: var(--cobalt); }
+        .c-cell:nth-child(even) { border-top-color: var(--yellow); }
+        .c-cell:hover { transform: translateY(-10px); z-index: 10; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .c-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 2rem; text-transform: uppercase; margin-bottom: 15px; }
+        .c-text { font-size: 0.85rem; line-height: 1.7; color: #666; }
+
+        /* ── V. FONCTION (BLACK) ── */
+        #func-section { background: var(--ink); border-top: 1px solid #222; }
+        .func-top { text-align: center; padding: 120px 0; border-bottom: 1px solid #111; }
+        .func-bottom { display: grid; grid-template-columns: 1fr 1fr; }
+        .func-manifesto { padding: 80px; border-right: 1px solid #111; }
+        .func-manifesto p { font-size: 1rem; line-height: 2; color: #777; margin-bottom: 20px; }
+        .func-manifesto strong { color: var(--paper); }
+        .func-equation { padding: 80px; display: flex; flex-direction: column; justify-content: center; gap: 30px; }
+        .eq-line { font-size: 1.2rem; display: flex; align-items: center; gap: 20px; }
+        .eq-line .var { color: var(--cobalt); }
+        .eq-line .res { color: var(--yellow); }
+
+        /* ── FOOTER ── */
+        footer { background: var(--ink); border-top: 1px solid #111; padding: 80px 40px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 40px; }
+        .footer-brand-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 2.5rem; color: var(--paper); }
+        .footer-mid { font-size: 0.7rem; color: #333; text-align: center; letter-spacing: 0.15em; line-height: 2; }
+        .footer-right { font-size: 0.7rem; color: #333; text-align: right; font-weight: 700; text-transform: uppercase; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            body { cursor: auto; }
+            #cursor { display: none !important; }
+            nav { padding: 14px 20px; }
+            .nav-links { display: none; }
+            .hero-bottom { grid-template-columns: 1fr; gap: 30px; padding: 0 20px; }
+            .hero-formula, .hero-def { display: none; }
+            .mkt-grid, .sci-header, .sci-row, .brain-grid, .func-bottom, .sci-footer-bar { grid-template-columns: 1fr; }
+            .creation-mosaic { grid-template-columns: 1fr 1fr; }
+            .wrap { padding: 0 20px; }
+            footer { grid-template-columns: 1fr; text-align: center; }
+            .footer-right { text-align: center; }
+            .func-manifesto { border-right: none; border-bottom: 1px solid #111; padding: 40px 20px; }
+        }
+
+        .reveal, .reveal-left, .eq-line { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+        .vis { opacity: 1; transform: none; }
+    </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<!-- NAVIGATION -->
+<nav>
+    <div class="nav-logo">
+        <svg viewBox="0 0 217 352" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:28px;height:auto">
+            <path fill="#ffffff" d="M162.86,0.5c-25.07,0-45.36,20.13-45.36,45v279h-17.2l-0.44-225c0-24.87-20.29-45-45.36-45h-54v252 c0,24.87,20.13,45,45,45h126c24.88,0,45-20.13,45-45V0.5H162.86z M189.88,51.76l12.47,10.39l-20.78,16.63l-6.24-16.63l-6.24,16.63 l-20.78-16.63l12.47-10.39l-16.63-4.16l8.31-20.79l14.56,8.32l0.12,0.16l-4.28-16.6l24.94-0.19l-4,16.55l14.4-8.24l8.31,20.79 L189.88,51.76z"/>
+        </svg>
+        <div class="nav-wordmark">U<sup>*</sup></div>
+    </div>
+    <ul class="nav-links">
+        <li><a href="#substance">Substance</a></li>
+        <li><a href="#science">Science</a></li>
+        <li><a href="#brain">Cerveau</a></li>
+        <li><a href="#creation">Création</a></li>
+        <li><a href="#func-section">La Fonction</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-center">
+        <svg class="hero-logo-big" viewBox="0 0 217 352" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#ffffff" d="M162.86,0.5c-25.07,0-45.36,20.13-45.36,45v279h-17.2l-0.44-225c0-24.87-20.29-45-45.36-45h-54v252 c0,24.87,20.13,45,45,45h126c24.88,0,45-20.13,45-45V0.5H162.86z M189.88,51.76l12.47,10.39l-20.78,16.63l-6.24-16.63l-6.24,16.63 l-20.78-16.63l12.47-10.39l-16.63-4.16l8.31-20.79l14.56,8.32l0.12,0.16l-4.28-16.6l24.94-0.19l-4,16.55l14.4-8.24l8.31,20.79 L189.88,51.76z"/>
+        </svg>
+    </div>
+    <div class="hero-bottom">
+        <div class="hero-def">
+            <strong>u* /juː stɑːr/</strong><br>
+            Fonction de transformation.<br>
+            Vecteur d'émergence.
+        </div>
+        <div class="hero-main-title">
+            <span class="line1"></span>
+            <span class="line2">Amplior, Vastior, Ultra Somnia</span>
+        </div>
+        <div class="hero-formula">
+            <div class="formula-box">
+                <div><span class="f-var">U*</span>(x) <span class="f-op">></span> <span class="f-res">x</span></div>
+                <div style="color:#444;font-size:0.6rem;margin-top:5px;text-transform:uppercase">Toujours croissante</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-outer">
+    <div class="ticker-inner">
+        <span>Élevons-Nous</span><span class="t-sep">✦</span>
+        <span>Le cerveau humain crée l'infini</span><span class="t-sep">✦</span>
+        <span>La Science, rigueur et structure</span><span class="t-sep">✦</span>
+        <span>Analyse · Transparence · Collaboration</span><span class="t-sep">✦</span>
+        <span>Élevons-Nous</span><span class="t-sep">✦</span>
+        <span>Le cerveau humain crée l'infini</span><span class="t-sep">✦</span>
+        <span>La Science, rigueur et structure</span><span class="t-sep">✦</span>
+    </div>
+</div>
+
+<!-- I. SUBSTANCE -->
+<section id="substance" class="section">
+    <div class="wrap">
+        <div class="s-eyebrow reveal">I — La Substance</div>
+        <div class="mkt-grid">
+            <div class="reveal-left">
+                <div class="mkt-big">
+                    <span class="crossed">Les Apparences</span><br>
+                    <span class="instead">Élevons-</span>
+                    <span class="instead">Nous.</span>
+                </div>
+            </div>
+            <div class="mkt-body reveal">
+                <p>U* refuse les signaux superficiels et n'a pas besoin d'artifices.</p>
+                <p><strong>Nous cultivons la clarté.</strong> Le superflu s'efface devant la pertinence pure de l'idée et de la preuve.</p>
+                <div class="mkt-credo">
+                    <div class="mkt-credo-item">→ Honnêteté intellectuelle</div>
+                    <div class="mkt-credo-item">→ Preuve par l'usage</div>
+                    <div class="mkt-credo-item">→ Intelligence collective</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- II. SCIENCE -->
+<section id="science" class="section">
+    <div class="wrap">
+        <div class="sci-header">
+            <div class="reveal">
+                <div class="s-eyebrow">II — Le Réel</div>
+                <h2 class="s-title">Science,<br><span style="color:var(--cobalt)">Rigueur et</span><br><span style="color:var(--yellow)">Structure</span></h2>
+            </div>
+            <div class="reveal">
+                <p class="sci-quote">L'histoire humaine progresse par la curiosité et la méthode. Nous bâtissons sur ce qui est observé, modélisé et partagé par-delà les dogmes.</p>
+            </div>
+        </div>
+        <div class="scientists-table reveal">
+            <div class="sci-row"><div class="sci-letter">D</div><div><div class="sci-name">Descartes</div></div><div class="sci-domain">Géométrie analytique</div><div class="sci-year">1596–1650</div></div>
+            <div class="sci-row"><div class="sci-letter">P</div><div><div class="sci-name">Pascal</div></div><div class="sci-domain">Probabilités · Physique</div><div class="sci-year">1623–1662</div></div>
+            <div class="sci-row"><div class="sci-letter">L</div><div><div class="sci-name">Lavoisier</div></div><div class="sci-domain">Chimie moderne</div><div class="sci-year">1743–1794</div></div>
+            <div class="sci-row"><div class="sci-letter">C</div><div><div class="sci-name">Curie</div></div><div class="sci-domain">Radioactivité</div><div class="sci-year">1867–1934</div></div>
+            <div class="sci-row"><div class="sci-letter">P</div><div><div class="sci-name">Poincaré</div></div><div class="sci-domain">Topologie · Chaos</div><div class="sci-year">1854–1912</div></div>
+        </div>
+        <div class="sci-footer-bar reveal">
+            <div class="sci-pillar">
+                <div class="sci-pillar-sym">⊢</div>
+                <div class="sci-pillar-label">Observation</div>
+                <div class="sci-pillar-text">Analyse factuelle durable.</div>
+            </div>
+            <div class="sci-pillar">
+                <div class="sci-pillar-sym">⊥</div>
+                <div class="sci-pillar-label">Vérification</div>
+                <div class="sci-pillar-text">Honnêteté absolue des tests.</div>
+            </div>
+            <div class="sci-pillar">
+                <div class="sci-pillar-sym">∮</div>
+                <div class="sci-pillar-label">Héritage</div>
+                <div class="sci-pillar-text">Dessiner demain sur du solide.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- III. CERVEAU -->
+<section id="brain" class="section">
+    <div class="brain-orb"></div>
+    <div class="wrap">
+        <div class="brain-grid">
+            <div class="reveal-left">
+                <div class="s-eyebrow">III — L'Infini</div>
+                <h2 class="s-title">L'esprit<br>humain<br>initie<br><span style="color:var(--cobalt)">l'infini.</span></h2>
+            </div>
+            <div class="reveal">
+                <div class="ia-tag"><span class="ia-dot"></span>IA — collaborateur, pas moteur</div>
+                <p>L'IA accélère les processus, mais l'intuition créatrice qui définit U* reste fondamentalement humaine.</p>
+                <p><strong>Nous multiplions notre portée.</strong></p>
+                <div class="brain-stat">
+                    ∞
+                    <small>Potentiel d'émergence</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- IV. CRÉATION -->
+<section id="creation" class="section">
+    <div class="wrap">
+        <div class="reveal">
+            <div class="s-eyebrow">IV — Le Moteur</div>
+            <h2 class="s-title">L'audace<br><span style="color:var(--cobalt)">du Neuf</span></h2>
+        </div>
+    </div>
+    <div class="creation-mosaic reveal">
+        <div class="c-cell">
+            <div class="c-title">Invention</div>
+            <div class="c-text">Donner vie à l'inexistant par la pensée.</div>
+        </div>
+        <div class="c-cell">
+            <div class="c-title">Exploration</div>
+            <div class="c-text">Franchir les zones d'inconfort pour trouver de nouvelles réponses.</div>
+        </div>
+        <div class="c-cell">
+            <div class="c-title">Synergie</div>
+            <div class="c-text">Le collectif comme amplificateur de la singularité.</div>
+        </div>
+        <div class="c-cell">
+            <div class="c-title">Impact</div>
+            <div class="c-text">Transformer le réel par l'application rigoureuse du savoir.</div>
+        </div>
+    </div>
+</section>
+
+<!-- V. FONCTION -->
+<section id="func-section">
+    <div class="func-top">
+        <svg style="width:120px" viewBox="0 0 217 352" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#ffffff" d="M162.86,0.5c-25.07,0-45.36,20.13-45.36,45v279h-17.2l-0.44-225c0-24.87-20.29-45-45.36-45h-54v252 c0,24.87,20.13,45,45,45h126c24.88,0,45-20.13,45-45V0.5H162.86z M189.88,51.76l12.47,10.39l-20.78,16.63l-6.24-16.63l-6.24,16.63 l-20.78-16.63l12.47-10.39l-16.63-4.16l8.31-20.79l14.56,8.32l0.12,0.16l-4.28-16.6l24.94-0.19l-4,16.55l14.4-8.24l8.31,20.79 L189.88,51.76z"/>
+        </svg>
+        <div class="func-sub">Amplior, Vastior, Ultra Somnia</div>
+    </div>
+    <div class="func-bottom">
+        <div class="func-manifesto">
+            <div class="s-eyebrow">La Définition</div>
+            <p>U* est un <strong>opérateur de transformation</strong> appliqué à l'humain et à ses idées.</p>
+            <p>Elle prend le présent pour le projeter dans un futur augmenté, vérifié et actif.</p>
+        </div>
+        <div class="func-equation">
+            <div class="eq-line"><span class="var">input</span><span class="op">=</span><span>Nous</span></div>
+            <div class="eq-line"><span class="var">U*</span><span class="op">=</span><span>la fonction</span></div>
+            <div class="eq-line"><span class="res">output</span><span class="op">=</span><span>Nous en mieux, beaucoup mieux</span></div>
+            <div style="margin-top:20px; color:#444; font-size:0.8rem">∀x ∈ Humanité, U*(x) > x</div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-brand-name">U<sup>*</sup></div>
+    <div class="footer-mid">
+        Descartes · Pascal · Lavoisier · Curie · Poincaré<br>
+        // De l'observation à l'émergence universelle.
+    </div>
+    <div class="footer-right">U*(x) > x</div>
+</footer>
+
+<script>
+    const cursor = document.getElementById('cursor');
+    let hasMouse = false;
+
+    document.addEventListener('mousemove', e => {
+        if(!hasMouse) {
+            hasMouse = true;
+            cursor.style.display = 'block';
+            document.body.style.cursor = 'none';
+        }
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+
+    document.querySelectorAll('a, button, .sci-row, .c-cell').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+    });
+
+    const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal, .reveal-left, .eq-line').forEach(el => io.observe(el));
+
+    // Effet parallaxe logo hero
+    document.addEventListener('mousemove', e => {
+        const cx = window.innerWidth / 2;
+        const cy = window.innerHeight / 2;
+        const dx = (e.clientX - cx) / cx;
+        const dy = (e.clientY - cy) / cy;
+        const logo = document.querySelector('.hero-logo-big');
+        if (logo) logo.style.transform = `translate(${dx*15}px, ${dy*10}px)`;
+    });
+</script>
+</body>
+</html>
