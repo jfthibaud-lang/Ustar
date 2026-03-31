@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>U* — Amplior, Vastior, Ultra Somnia</title>
+    <title>U* — Les enfants du Génie Français</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,700;0,900;1,900&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <style>
@@ -11,7 +11,7 @@
             --ink: #000000;      /* Fond Noir */
             --paper: #ffffff;    /* Blanc pur */
             --cobalt: #0047ab;   /* Bleu Cobalt */
-            --yellow: #FFB700;   /* Jaune Ambre - Plus saturé et moins pastel */
+            --yellow: #FFB700;   /* Jaune Ambre */
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,9 +23,10 @@
             color: var(--paper);
             font-family: 'DM Mono', monospace;
             overflow-x: hidden;
+            cursor: none;
         }
 
-        /* ── CURSEUR ── */
+        /* ── CURSEUR PERSONNALISÉ ── */
         #cursor {
             position: fixed;
             width: 12px; height: 12px;
@@ -65,7 +66,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        .nav-logo { display: flex; align-items: center; gap: 12px; }
+        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
         .nav-wordmark { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 1.6rem; letter-spacing: 0.05em; color: var(--paper); }
         .nav-wordmark sup { color: var(--yellow); font-size: 0.9em; }
         .nav-links { display: flex; gap: 30px; list-style: none; }
@@ -163,7 +164,7 @@
         .ticker-inner {
             display: flex;
             white-space: nowrap;
-            animation: tick 28s linear infinite;
+            animation: tick 45s linear infinite;
             font-family: 'Barlow Condensed', sans-serif;
             font-weight: 700;
             font-size: 1.1rem;
@@ -217,41 +218,38 @@
         .mkt-credo { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
         .mkt-credo-item { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.4rem; text-transform: uppercase; display: flex; align-items: center; gap: 12px; color: var(--yellow); }
 
-        /* ── II. SCIENCE (BLACK) ── */
+        /* ── II. RIGUEUR ── */
         #science { background: var(--ink); }
         .sci-header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 80px; }
         .sci-quote { font-size: 1rem; line-height: 1.9; color: #888; font-style: italic; }
         .scientists-table { border-top: 1px solid #222; }
-        .sci-row { display: grid; grid-template-columns: 60px 1fr 1fr 80px; align-items: center; border-bottom: 1px solid #222; padding: 22px 0; transition: all 0.3s; }
+        .sci-row { display: grid; grid-template-columns: 60px 1fr 1fr 80px; align-items: center; border-bottom: 1px solid #222; padding: 22px 0; transition: all 0.3s; cursor: pointer; }
         .sci-row:hover { background: #080808; padding-left: 20px; border-bottom-color: var(--cobalt); }
         .sci-letter { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 3rem; color: #333; }
         .sci-row:hover .sci-letter { color: var(--yellow); }
         .sci-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.4rem; text-transform: uppercase; }
         .sci-domain { font-size: 0.7rem; color: #666; font-style: italic; }
         .sci-year { font-size: 0.65rem; color: #444; text-align: right; }
-        .sci-footer-bar { margin-top: 60px; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #222; }
-        .sci-pillar { padding: 40px 30px; border-right: 1px solid #222; }
-        .sci-pillar-sym { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 3.5rem; color: var(--cobalt); margin-bottom: 10px; }
 
-        /* ── III. CERVEAU (BLACK + GLOW) ── */
+        /* ── III. INTUITION ── */
         #brain { background: var(--ink); position: relative; overflow: hidden; border-top: 1px solid #222; }
         .brain-orb { position: absolute; right: -150px; top: -150px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(0,71,171,0.2) 0%, transparent 70%); }
         .brain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
         .brain-stat { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 5rem; color: var(--yellow); line-height: 1; }
         .brain-stat small { display: block; font-size: 0.7rem; color: #555; text-transform: uppercase; letter-spacing: 0.2em; margin-top: 10px; }
 
-        /* ── IV. CRÉATION (WHITE) ── */
+        /* ── IV. AUDACE ── */
         #creation { background: var(--paper); color: var(--ink); }
         #creation .s-eyebrow::after { background: #eee; }
         .creation-mosaic { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: #eee; margin-top: 60px; }
-        .c-cell { background: var(--paper); padding: 50px 30px; position: relative; border-top: 4px solid var(--ink); transition: transform 0.3s; }
+        .c-cell { background: var(--paper); padding: 50px 30px; position: relative; border-top: 4px solid var(--ink); transition: transform 0.3s; cursor: pointer; }
         .c-cell:nth-child(odd) { border-top-color: var(--cobalt); }
         .c-cell:nth-child(even) { border-top-color: var(--yellow); }
         .c-cell:hover { transform: translateY(-10px); z-index: 10; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
         .c-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 2rem; text-transform: uppercase; margin-bottom: 15px; }
         .c-text { font-size: 0.85rem; line-height: 1.7; color: #666; }
 
-        /* ── V. FONCTION (BLACK) ── */
+        /* ── V. FONCTION ── */
         #func-section { background: var(--ink); border-top: 1px solid #222; }
         .func-top { text-align: center; padding: 120px 0; border-bottom: 1px solid #111; }
         .func-bottom { display: grid; grid-template-columns: 1fr 1fr; }
@@ -269,7 +267,10 @@
         .footer-mid { font-size: 0.7rem; color: #333; text-align: center; letter-spacing: 0.15em; line-height: 2; }
         .footer-right { font-size: 0.7rem; color: #333; text-align: right; font-weight: 700; text-transform: uppercase; }
 
-        /* ── RESPONSIVE ── */
+        /* ── ANIMATIONS ── */
+        .reveal, .reveal-left, .eq-line { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+        .vis { opacity: 1; transform: none; }
+
         @media (max-width: 900px) {
             body { cursor: auto; }
             #cursor { display: none !important; }
@@ -277,16 +278,13 @@
             .nav-links { display: none; }
             .hero-bottom { grid-template-columns: 1fr; gap: 30px; padding: 0 20px; }
             .hero-formula, .hero-def { display: none; }
-            .mkt-grid, .sci-header, .sci-row, .brain-grid, .func-bottom, .sci-footer-bar { grid-template-columns: 1fr; }
+            .mkt-grid, .sci-header, .sci-row, .brain-grid, .func-bottom { grid-template-columns: 1fr; }
             .creation-mosaic { grid-template-columns: 1fr 1fr; }
             .wrap { padding: 0 20px; }
             footer { grid-template-columns: 1fr; text-align: center; }
             .footer-right { text-align: center; }
             .func-manifesto { border-right: none; border-bottom: 1px solid #111; padding: 40px 20px; }
         }
-
-        .reveal, .reveal-left, .eq-line { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
-        .vis { opacity: 1; transform: none; }
     </style>
 </head>
 <body>
@@ -295,18 +293,18 @@
 
 <!-- NAVIGATION -->
 <nav>
-    <div class="nav-logo">
+    <a href="#" class="nav-logo">
         <svg viewBox="0 0 217 352" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:28px;height:auto">
             <path fill="#ffffff" d="M162.86,0.5c-25.07,0-45.36,20.13-45.36,45v279h-17.2l-0.44-225c0-24.87-20.29-45-45.36-45h-54v252 c0,24.87,20.13,45,45,45h126c24.88,0,45-20.13,45-45V0.5H162.86z M189.88,51.76l12.47,10.39l-20.78,16.63l-6.24-16.63l-6.24,16.63 l-20.78-16.63l12.47-10.39l-16.63-4.16l8.31-20.79l14.56,8.32l0.12,0.16l-4.28-16.6l24.94-0.19l-4,16.55l14.4-8.24l8.31,20.79 L189.88,51.76z"/>
         </svg>
-        <div class="nav-wordmark">U<sup>*</sup></div>
-    </div>
+        <div class="nav-wordmark"><sup></sup></div>
+    </a>
     <ul class="nav-links">
         <li><a href="#substance">Substance</a></li>
-        <li><a href="#science">Science</a></li>
-        <li><a href="#brain">Cerveau</a></li>
-        <li><a href="#creation">Création</a></li>
-        <li><a href="#func-section">La Fonction</a></li>
+        <li><a href="#science">Rigueur</a></li>
+        <li><a href="#brain">Intuition</a></li>
+        <li><a href="#creation">Audace</a></li>
+        <li><a href="#func-section">Manifeste</a></li>
     </ul>
 </nav>
 
@@ -321,8 +319,8 @@
     <div class="hero-bottom">
         <div class="hero-def">
             <strong>u* /juː stɑːr/</strong><br>
-            Fonction de transformation.<br>
-            Vecteur d'émergence.
+            Le Vecteur du Génie.<br>
+            Synthèse de la Raison & de l'Art. (oui tout simplement)
         </div>
         <div class="hero-main-title">
             <span class="line1"></span>
@@ -330,8 +328,8 @@
         </div>
         <div class="hero-formula">
             <div class="formula-box">
-                <div><span class="f-var">U*</span>(x) <span class="f-op">></span> <span class="f-res">x</span></div>
-                <div style="color:#444;font-size:0.6rem;margin-top:5px;text-transform:uppercase">Toujours croissante</div>
+                <div><span class="f-var">U*</span>(x) <span class="f-op">=</span> <span class="f-res">Rigueur + Audace</span></div>
+                <div style="color:#444;font-size:0.6rem;margin-top:5px;text-transform:uppercase">repousse les frontières... et si tu parles pas latin, passe ton chemin</div>
             </div>
         </div>
     </div>
@@ -340,13 +338,52 @@
 <!-- TICKER -->
 <div class="ticker-outer">
     <div class="ticker-inner">
-        <span>Élevons-Nous</span><span class="t-sep">✦</span>
-        <span>Le cerveau humain crée l'infini</span><span class="t-sep">✦</span>
-        <span>La Science, rigueur et structure</span><span class="t-sep">✦</span>
-        <span>Analyse · Transparence · Collaboration</span><span class="t-sep">✦</span>
-        <span>Élevons-Nous</span><span class="t-sep">✦</span>
-        <span>Le cerveau humain crée l'infini</span><span class="t-sep">✦</span>
-        <span>La Science, rigueur et structure</span><span class="t-sep">✦</span>
+        <span>Abnégation</span><span class="t-sep">✦</span>
+        <span>Rigueur</span><span class="t-sep">✦</span>
+        <span>coup de chatte</span><span class="t-sep">✦</span>
+        <span>Universalité</span><span class="t-sep">✦</span>
+        <span>Rationalisme</span><span class="t-sep">✦</span>
+        <span>Prout</span><span class="t-sep">✦</span>
+        <span>Formalisme</span><span class="t-sep">✦</span>
+        <span>Anticonformisme</span><span class="t-sep">✦</span>
+        <span>Curiosité</span><span class="t-sep">✦</span>
+        <span>Cheh</span><span class="t-sep">✦</span>
+        <span>Observation</span><span class="t-sep">✦</span>
+        <span>Transcendance</span><span class="t-sep">✦</span>
+        <span>Abstraction</span><span class="t-sep">✦</span>
+        <span>Synthèse</span><span class="t-sep">✦</span>
+        <span>Vision</span><span class="t-sep">✦</span>
+        <span>Esthétisme</span><span class="t-sep">✦</span>
+        <span>Imaginaire</span><span class="t-sep">✦</span>
+        <span>Rupture</span><span class="t-sep">✦</span>
+        <span>Style</span><span class="t-sep">✦</span>
+        <span>Émotion</span><span class="t-sep">✦</span>
+        <span>Avant-garde</span><span class="t-sep">✦</span>
+        <span>Humanisme</span><span class="t-sep">✦</span>
+        <span>Liberté</span><span class="t-sep">✦</span>
+        <span>Modernité</span><span class="t-sep">✦</span>
+        <span>Audace</span><span class="t-sep">✦</span>
+        <span>Poésie</span><span class="t-sep">✦</span>
+        <span>Provocation</span><span class="t-sep">✦</span>
+        <span>Épure</span><span class="t-sep">✦</span>
+        <span>Transmission</span><span class="t-sep">✦</span>
+        <span>Subjectivité</span><span class="t-sep">✦</span>
+        <!-- Duplication -->
+        <span>Abnégation</span><span class="t-sep">✦</span>
+        <span>Rigueur</span><span class="t-sep">✦</span>
+        <span>Intuition</span><span class="t-sep">✦</span>
+        <span>Universalité</span><span class="t-sep">✦</span>
+        <span>Rationalisme</span><span class="t-sep">✦</span>
+        <span>Détermination</span><span class="t-sep">✦</span>
+        <span>Formalisme</span><span class="t-sep">✦</span>
+        <span>Anticonformisme</span><span class="t-sep">✦</span>
+        <span>Curiosité</span><span class="t-sep">✦</span>
+        <span>Lumières</span><span class="t-sep">✦</span>
+        <span>Observation</span><span class="t-sep">✦</span>
+        <span>Transcendance</span><span class="t-sep">✦</span>
+        <span>Abstraction</span><span class="t-sep">✦</span>
+        <span>Synthèse</span><span class="t-sep">✦</span>
+        <span>Vision</span><span class="t-sep">✦</span>
     </div>
 </div>
 
@@ -357,109 +394,112 @@
         <div class="mkt-grid">
             <div class="reveal-left">
                 <div class="mkt-big">
-                    <span class="crossed">Les Apparences</span><br>
-                    <span class="instead">Élevons-</span>
-                    <span class="instead">Nous.</span>
+                    <span class="crossed">Le Superflu</span><br>
+                    <span class="instead">L'Essence du concept</span>
+                    <span class="instead"></span>
                 </div>
             </div>
             <div class="mkt-body reveal">
-                <p>U* refuse les signaux superficiels et n'a pas besoin d'artifices.</p>
-                <p><strong>Nous cultivons la clarté.</strong> Le superflu s'efface devant la pertinence pure de l'idée et de la preuve.</p>
+                <p>U* est l'emblème de ceux qui refusent le moyen. Nous puisons dans le <strong>Rationalisme</strong> des savants et l' <strong>imaginaire</strong> des créateurs pour forger l'exception.</p>
+                <p><strong>Nous cultivons la différence.</strong> Quand la rigueur rencontre l'épure, le <strong>trait</strong> s'efface pour laisser place à la transcendance. Oui.... Tu as bien lu... et ouais...</p>
                 <div class="mkt-credo">
-                    <div class="mkt-credo-item">→ Honnêteté intellectuelle</div>
-                    <div class="mkt-credo-item">→ Preuve par l'usage</div>
-                    <div class="mkt-credo-item">→ Intelligence collective</div>
+                    <div class="mkt-credo-item">→ Radical</div>
+                    <div class="mkt-credo-item">→ Intemporelle</div>
+                    <div class="mkt-credo-item">→ Technique</div>
+                    <div class="mkt-credo-item">→ et Boom!</div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- II. SCIENCE -->
+<!-- II. RIGUEUR -->
 <section id="science" class="section">
     <div class="wrap">
         <div class="sci-header">
             <div class="reveal">
                 <div class="s-eyebrow">II — Le Réel</div>
-                <h2 class="s-title">Science,<br><span style="color:var(--cobalt)">Rigueur et</span><br><span style="color:var(--yellow)">Structure</span></h2>
+                <h2 class="s-title">Curiosité,<br><span style="color:var(--cobalt)">Abstraction et</span><br><span style="color:var(--yellow)">.........merde, je l'ai plus</span></h2>
             </div>
             <div class="reveal">
-                <p class="sci-quote">L'histoire humaine progresse par la curiosité et la méthode. Nous bâtissons sur ce qui est observé, modélisé et partagé par-delà les dogmes.</p>
+                <p class="sci-quote">L'histoire humaine progresse par la curiosité et l'abstraction. U* s'appuie sur la vision croisée pour définir l'indéfini de l'infini puisé du vide.</p>
             </div>
         </div>
         <div class="scientists-table reveal">
-            <div class="sci-row"><div class="sci-letter">D</div><div><div class="sci-name">Descartes</div></div><div class="sci-domain">Géométrie analytique</div><div class="sci-year">1596–1650</div></div>
-            <div class="sci-row"><div class="sci-letter">P</div><div><div class="sci-name">Pascal</div></div><div class="sci-domain">Probabilités · Physique</div><div class="sci-year">1623–1662</div></div>
-            <div class="sci-row"><div class="sci-letter">L</div><div><div class="sci-name">Lavoisier</div></div><div class="sci-domain">Chimie moderne</div><div class="sci-year">1743–1794</div></div>
-            <div class="sci-row"><div class="sci-letter">C</div><div><div class="sci-name">Curie</div></div><div class="sci-domain">Radioactivité</div><div class="sci-year">1867–1934</div></div>
-            <div class="sci-row"><div class="sci-letter">P</div><div><div class="sci-name">Poincaré</div></div><div class="sci-domain">Topologie · Chaos</div><div class="sci-year">1854–1912</div></div>
+            <div class="sci-row"><div class="sci-letter">D</div><div><div class="sci-name">Descartes</div></div><div class="sci-domain">Rationalisme · Géométrie</div><div class="sci-year">Méthode</div></div>
+            <div class="sci-row"><div class="sci-letter">R</div><div><div class="sci-name">Rodin</div></div><div class="sci-domain">Emotion · Mouvement</div><div class="sci-year">Passion</div></div>
+            <div class="sci-row"><div class="sci-letter">P</div><div><div class="sci-name">Pascal</div></div><div class="sci-domain">Abstraction · Pensée</div><div class="sci-year">Universalité</div></div>
+            <div class="sci-row"><div class="sci-letter">L</div><div><div class="sci-name">Dupontel</div></div><div class="sci-domain">Bernie · intelligence</div><div class="sci-year">humanisme</div></div>
+            <div class="sci-row"><div class="sci-letter">C</div><div><div class="sci-name">Franquin</div></div><div class="sci-domain">Gaston · imaginaire</div><div class="sci-year">Détermination</div></div>
+            <div class="sci-row"><div class="sci-letter">P</div><div><div class="sci-name">Poincaré</div></div><div class="sci-domain">Intuition · Chaos</div><div class="sci-year">Vision</div></div>
+            <div class="sci-row"><div class="sci-letter">C</div><div><div class="sci-name">Cezanne</div></div><div class="sci-domain">travailleur · génie</div><div class="sci-year">la Rupture</div></div>
+
         </div>
-        <div class="sci-footer-bar reveal">
-            <div class="sci-pillar">
-                <div class="sci-pillar-sym">⊢</div>
-                <div class="sci-pillar-label">Observation</div>
-                <div class="sci-pillar-text">Analyse factuelle durable.</div>
+        <div class="sci-footer-bar reveal" style="margin-top:60px; display:grid; grid-template-columns:repeat(3, 1fr); border:1px solid #222;">
+            <div class="sci-pillar" style="padding:40px 30px; border-right:1px solid #222;">
+                <div class="sci-pillar-sym" style="font-family:'Barlow Condensed', sans-serif; font-weight:900; font-size:3.5rem; color:var(--cobalt); margin-bottom:10px;">⊢</div>
+                <div class="sci-pillar-label" style="text-transform:uppercase; font-size:0.7rem; letter-spacing:0.1em; color:#888;">Observation</div>
+                <div class="sci-pillar-text" style="font-size:0.8rem; margin-top:10px; color:#555;">Analyser le monde pour éviter d'halluciner.</div>
             </div>
-            <div class="sci-pillar">
-                <div class="sci-pillar-sym">⊥</div>
-                <div class="sci-pillar-label">Vérification</div>
-                <div class="sci-pillar-text">Honnêteté absolue des tests.</div>
+            <div class="sci-pillar" style="padding:40px 30px; border-right:1px solid #222;">
+                <div class="sci-pillar-sym" style="font-family:'Barlow Condensed', sans-serif; font-weight:900; font-size:3.5rem; color:var(--cobalt); margin-bottom:10px;">⊥</div>
+                <div class="sci-pillar-label" style="text-transform:uppercase; font-size:0.7rem; letter-spacing:0.1em; color:#888;">Rigueur</div>
+                <div class="sci-pillar-text" style="font-size:0.8rem; margin-top:10px; color:#555;">L'esthétique scientifique .</div>
             </div>
-            <div class="sci-pillar">
-                <div class="sci-pillar-sym">∮</div>
-                <div class="sci-pillar-label">Héritage</div>
-                <div class="sci-pillar-text">Dessiner demain sur du solide.</div>
+            <div class="sci-pillar" style="padding:40px 30px;">
+                <div class="sci-pillar-sym" style="font-family:'Barlow Condensed', sans-serif; font-weight:900; font-size:3.5rem; color:var(--cobalt); margin-bottom:10px;">∮</div>
+                <div class="sci-pillar-label" style="text-transform:uppercase; font-size:0.7rem; letter-spacing:0.1em; color:#888;">Transcendance</div>
+                <div class="sci-pillar-text" style="font-size:0.8rem; margin-top:10px; color:#555;">Bâtir au-delà des limites.</div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- III. CERVEAU -->
+<!-- III. INTUITION -->
 <section id="brain" class="section">
     <div class="brain-orb"></div>
     <div class="wrap">
         <div class="brain-grid">
             <div class="reveal-left">
-                <div class="s-eyebrow">III — L'Infini</div>
-                <h2 class="s-title">L'esprit<br>humain<br>initie<br><span style="color:var(--cobalt)">l'infini.</span></h2>
+                <div class="s-eyebrow">III — L'Intuition</div>
+                <h2 class="s-title">L'Esprit<br>initie<br>la<br><span style="color:var(--cobalt)">Rupture.</span></h2>
             </div>
             <div class="reveal">
-                <div class="ia-tag"><span class="ia-dot"></span>IA — collaborateur, pas moteur</div>
-                <p>L'IA accélère les processus, mais l'intuition créatrice qui définit U* reste fondamentalement humaine.</p>
-                <p><strong>Nous multiplions notre portée.</strong></p>
                 <div class="brain-stat">
-                    ∞
-                    <small>Potentiel d'émergence</small>
+                    ✦
+                    <small>Le choix de Créer</small>
                 </div>
+                <p style="margin-top:40px;">La science sans imaginaire est stérile. L'art sans méthode est éphémère. U* réconcilie l'intuition poétique et la logique pure.</p>
+                <p><strong>Nous choisissons de croire que l'âme humaine est infinie.... si avec ça je vous embarque pas, je vois pas.</strong></p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- IV. CRÉATION -->
+<!-- IV. AUDACE -->
 <section id="creation" class="section">
     <div class="wrap">
         <div class="reveal">
-            <div class="s-eyebrow">IV — Le Moteur</div>
-            <h2 class="s-title">L'audace<br><span style="color:var(--cobalt)">du Neuf</span></h2>
+            <div class="s-eyebrow">IV — alors là.... faut se concentrer, t'es pas prêt...</div>
+            <h2 class="s-title">L'Audace<br><span style="color:var(--cobalt)">de l'Épure</span></h2>
         </div>
     </div>
     <div class="creation-mosaic reveal">
         <div class="c-cell">
-            <div class="c-title">Invention</div>
-            <div class="c-text">Donner vie à l'inexistant par la pensée.</div>
+            <div class="c-title">Molière</div>
+            <div class="c-text">Provocation et satire sociale : l'art comme miroir de la vérité brute.</div>
         </div>
         <div class="c-cell">
-            <div class="c-title">Exploration</div>
-            <div class="c-text">Franchir les zones d'inconfort pour trouver de nouvelles réponses.</div>
+            <div class="c-title">Astier</div>
+            <div class="c-text">Imaginaire et humanisme : la grandeur au service de la liberté .</div>
         </div>
         <div class="c-cell">
-            <div class="c-title">Synergie</div>
-            <div class="c-text">Le collectif comme amplificateur de la singularité.</div>
+            <div class="c-title">Monet</div>
+            <div class="c-text">Émotion et lumière : capturer l'impalpable pour l'éternité.</div>
         </div>
         <div class="c-cell">
-            <div class="c-title">Impact</div>
-            <div class="c-text">Transformer le réel par l'application rigoureuse du savoir.</div>
+            <div class="c-title">Giono</div>
+            <div class="c-text">Provence et simplcité : explorer les strates d'une conscience écologique. Ouais ... chaud</div>
         </div>
     </div>
 </section>
@@ -470,19 +510,19 @@
         <svg style="width:120px" viewBox="0 0 217 352" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill="#ffffff" d="M162.86,0.5c-25.07,0-45.36,20.13-45.36,45v279h-17.2l-0.44-225c0-24.87-20.29-45-45.36-45h-54v252 c0,24.87,20.13,45,45,45h126c24.88,0,45-20.13,45-45V0.5H162.86z M189.88,51.76l12.47,10.39l-20.78,16.63l-6.24-16.63l-6.24,16.63 l-20.78-16.63l12.47-10.39l-16.63-4.16l8.31-20.79l14.56,8.32l0.12,0.16l-4.28-16.6l24.94-0.19l-4,16.55l14.4-8.24l8.31,20.79 L189.88,51.76z"/>
         </svg>
-        <div class="func-sub">Amplior, Vastior, Ultra Somnia</div>
+        <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.4rem; text-transform: uppercase; margin-top: 20px; color: var(--paper);">Amplior, Vastior, Ultra Somnia</div>
     </div>
     <div class="func-bottom">
         <div class="func-manifesto">
             <div class="s-eyebrow">La Définition</div>
-            <p>U* est un <strong>opérateur de transformation</strong> appliqué à l'humain et à ses idées.</p>
-            <p>Elle prend le présent pour le projeter dans un futur augmenté, vérifié et actif.</p>
+            <p>U* est un <strong>opérateur de transformation</strong> </p>
+            <p>Elle est le trait d'union entre l'équation de Cauchy et l'épure de Géricault : un vecteur entre le progrès et le beau éternel..... c'est bon? t'as les refs?</p>
         </div>
         <div class="func-equation">
-            <div class="eq-line"><span class="var">input</span><span class="op">=</span><span>Nous</span></div>
-            <div class="eq-line"><span class="var">U*</span><span class="op">=</span><span>la fonction</span></div>
-            <div class="eq-line"><span class="res">output</span><span class="op">=</span><span>Nous en mieux, beaucoup mieux</span></div>
-            <div style="margin-top:20px; color:#444; font-size:0.8rem">∀x ∈ Humanité, U*(x) > x</div>
+            <div class="eq-line"><span class="var">Input</span><span class="op">=</span><span>Curiosité</span></div>
+            <div class="eq-line"><span class="var">U*</span><span class="op">=</span><span>Synthèse (Art + Science)</span></div>
+            <div class="eq-line"><span class="res">Output</span><span class="op">=</span><span>Transcendance (rien que ça, oui pour toi)</span></div>
+            <div style="margin-top:20px; color:#444; font-size:0.8rem">∀x ∈ Esprit Humain, U*(x) > x</div>
         </div>
     </div>
 </section>
@@ -491,10 +531,10 @@
 <footer>
     <div class="footer-brand-name">U<sup>*</sup></div>
     <div class="footer-mid">
-        Descartes · Pascal · Lavoisier · Curie · Poincaré<br>
-        // De l'observation à l'émergence universelle.
+        Pascal · Stratos · Lavoisier ·Bangski · Hugo · Poincaré<br>
+        // du latin que personne ne comprend à un site web qui n'a aucun sens....U*
     </div>
-    <div class="footer-right">U*(x) > x</div>
+    <div class="footer-right">Amplior, Vastior, et truc somnia machin</div>
 </footer>
 
 <script>
@@ -521,7 +561,6 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal, .reveal-left, .eq-line').forEach(el => io.observe(el));
 
-    // Effet parallaxe logo hero
     document.addEventListener('mousemove', e => {
         const cx = window.innerWidth / 2;
         const cy = window.innerHeight / 2;
